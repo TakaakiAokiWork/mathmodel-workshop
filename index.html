@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数理モデリング研究会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --text: #2c2c2c;
+      --text-light: #6b6b6b;
+      --accent: #1a5276;
+      --accent-light: #2980b9;
+      --border: #d5cfc7;
+      --card-bg: #ffffff;
+      --hero-bg: #1a3a4a;
+      --hero-text: #f0ebe3;
+      --tag-bg: #e8e2d8;
+      --tag-text: #5a5248;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--hero-bg);
+      color: var(--hero-text);
+      padding: 4rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 60%, rgba(41,128,185,0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(243,156,18,0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+    .hero .subtitle {
+      font-size: 0.95rem;
+      opacity: 0.75;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+    .hero-photo {
+      margin-top: 2rem;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .hero-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-photo figcaption {
+      background: rgba(0,0,0,0.5);
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    /* ── Committee ── */
+    .committee {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .committee h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .committee-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 1.2rem;
+      font-size: 0.9rem;
+    }
+    .committee-list a {
+      color: var(--accent-light);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .committee-list a:hover {
+      border-color: var(--accent-light);
+    }
+    .committee-list .affiliation {
+      color: var(--text-light);
+      font-size: 0.8rem;
+    }
+
+    /* ── Workshops ── */
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .workshop-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+    }
+    .workshop-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1.2rem;
+      align-items: baseline;
+      padding: 0.8rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .workshop-item:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transform: translateX(2px);
+    }
+    .workshop-number {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 5.5rem;
+    }
+    .workshop-detail {
+      font-size: 0.9rem;
+    }
+    .workshop-detail a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .workshop-detail a:hover {
+      color: var(--accent-light);
+    }
+    .workshop-meta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+    }
+    .tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.72rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 3px;
+      font-weight: 400;
+    }
+
+    /* Special items (cafe, brainstorming) */
+    .workshop-item.cafe {
+      border-left-color: #d4a017;
+    }
+    .workshop-item.cafe .workshop-number {
+      color: #b8860b;
+    }
+    .workshop-item.special {
+      border-left-color: #7b8a8b;
+    }
+
+    /* ── Past ── */
+    .past-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .past-section h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 0.8rem;
+    }
+    .past-section a {
+      color: var(--accent-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .past-section a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 2.5rem 1.2rem 2rem; }
+      .container { padding: 1.5rem 1.2rem; }
+      .committee { padding: 1.2rem; }
+      .workshop-item {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+      .workshop-number { min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ───────── Hero ───────── -->
+<header class="hero">
+  <div class="hero-inner">
+    <h1>数理モデリング研究会</h1>
+    <p class="subtitle">Mathematical Modeling Workshop Series</p>
+    <figure class="hero-photo">
+      <img src="https://s-shinomoto.com/mathmodel/photos/20180707karuizawa.jpg"
+           alt="第6回 数理モデリング研究会 in 軽井沢 2018年7月" loading="lazy">
+      <figcaption>第6回　数理モデリング研究会 in 軽井沢　2018/07/06–08</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ───────── 組織委員 ───────── -->
+  <section class="committee">
+    <h2>組織委員</h2>
+    <div class="committee-list">
+      <span><a href="http://www.ed.kagawa-u.ac.jp/~aoki/">青木高明</a><span class="affiliation">（滋賀大学）</span></span>
+      <span><a href="http://www.hk.k.u-tokyo.ac.jp/r-koba/index.html">小林亮太</a><span class="affiliation">（東京大学）</span></span>
+      <span><a href="http://www.neuralengine.org/index_jp.html">島崎秀昭</a><span class="affiliation">（京都大学）</span></span>
+      <span><a href="http://www.ism.ac.jp/ism_info_j/labo/visit/125-1.html">小山慎介</a><span class="affiliation">（統計数理研）</span></span>
+      <span><a href="http://www.nips.ci.ritsumei.ac.jp/">坪泰宏</a><span class="affiliation">（立命館大学）</span></span>
+      <span><a href="https://researchmap.jp/ttakuma">田中琢真</a><span class="affiliation">（滋賀大学）</span></span>
+      <span><a href="http://www.econ.kobe-u.ac.jp/faculty/fields/theory/kobayashi.html">小林照義</a><span class="affiliation">（神戸大学）</span></span>
+      <span><a href="http://research.nii.ac.jp/~mizuno/">水野貴之</a><span class="affiliation">（国立情報学研究所）</span></span>
+      <span><a href="http://sig-hata.com/">秦重史</a><span class="affiliation">（鹿児島大学）</span></span>
+      <span><a href="http://www.k.sc.e.titech.ac.jp/members/nakao/index.html">中尾 裕也</a><span class="affiliation">（東京工業大学）</span></span>
+      <span><a href="https://masakiogura.com/index_j.html">小蔵正輝</a><span class="affiliation">（広島大学）</span></span>
+      <span><a href="https://s-shinomoto.com/">篠本滋</a></span>
+    </div>
+  </section>
+
+  <!-- ───────── ワークショップ一覧 ───────── -->
+  <h2 class="section-title">ワークショップ一覧</h2>
+
+  <ul class="workshop-list">
+    <li class="workshop-item special">
+      <span class="workshop-number">最終回</span>
+      <div class="workshop-detail">
+        <a href="https://sites.google.com/view/shinomoto70">2025/12/06–07　京都</a>
+        <div class="workshop-meta">
+          <span class="tag">総括</span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">研究者たちがこれまでの研究を総括し，これからについて語る．</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第21回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling250822.html">2025/08/22–24　軽井沢</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">新しいキーワードは「good enough」！</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第20回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling250207.html">2025/02/07–09　軽井沢・オンライン</a>
+        <div class="workshop-meta">
+          <span class="tag">AI</span><span class="tag">複雑ネットワーク</span><span class="tag">ナビゲーション</span>
+        </div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第19回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling241210.html">2024/12/10–12　鹿児島</a>
+        <div class="workshop-meta">
+          <span class="tag">人文学</span><span class="tag">数理モデリング</span>
+        </div>
+      </div>
+    </li>
+    <li class="workshop-item cafe">
+      <span class="workshop-number">カフェ第4回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/cafe20240929.html">2024/09/29　東京・オンライン</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">池上高志（東大）生命的なシステムとは？</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第18回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling240912.html">2024/09/12–14　軽井沢・オンライン</a>
+        <div class="workshop-meta"><span class="tag">群制御</span><span class="tag">問題定式化</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第17回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling230926.htm">2023/09/26–28　軽井沢・オンライン</a>
+        <div class="workshop-meta"><span class="tag">時空間計量犯罪学</span></div>
+      </div>
+    </li>
+    <li class="workshop-item cafe">
+      <span class="workshop-number">カフェ第3回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/cafe20230616.html">2023/06/19　東京</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">引原隆士（京大）電力と情報の融合．</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第16回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling230110.htm">2023/01/10　東京・オンライン</a>
+        <div class="workshop-meta"><span class="tag">確率過程</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第15回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling221213.htm">2022/12/13–15　鹿児島・オンライン</a>
+        <div class="workshop-meta"><span class="tag">ハイパーグラフ</span><span class="tag">同期現象</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第14回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling220730.html">2022/07/30–08/01　軽井沢・オンライン</a>
+        <div class="workshop-meta"><span class="tag">経済</span><span class="tag">COVID</span><span class="tag">多次元解析</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第13回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling210828.html">2021/08/28–30　オンライン</a>
+        <div class="workshop-meta"><span class="tag">ビッグデータ</span><span class="tag">ネットワーク解析</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第12回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling201121.html">2020/11/21–22　京都・オンライン</a>
+        <div class="workshop-meta"><span class="tag">数理モデリングの哲学</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第11回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling200912.html">2020/09/12–13　オンライン</a>
+        <div class="workshop-meta"><span class="tag">COVID-19</span><span class="tag">感染症</span><span class="tag">ソーシャルメディア</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第10回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling200308.html">2020/03/08–10　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">大自由度力学系</span></div>
+      </div>
+    </li>
+    <li class="workshop-item special">
+      <span class="workshop-number">BS</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/brainstorming191218.html">2019/12/18–19　京都</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">神経大規模計測データの解析について討論．</div>
+      </div>
+    </li>
+    <li class="workshop-item cafe">
+      <span class="workshop-number">カフェ第2回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/cafe20191204.html">2019/12/04　東京</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">西成活裕（東大）万物は渋滞する．</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第9回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling190719.html">2019/07/19–21　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">経済</span><span class="tag">時空間励起現象</span><span class="tag">制御</span></div>
+      </div>
+    </li>
+    <li class="workshop-item cafe">
+      <span class="workshop-number">カフェ第1回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/cafe20190424.html">2019/04/24　東京</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">郡宏（東大）生物リズムのモデリングと実験．</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第8回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling190209.html">2019/02/09–15　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">合宿滞在型</span><span class="tag">マルチトラックデータ解析</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第7回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling180718.html">2018/07/18　東京</a>
+        <div class="workshop-meta"><span class="tag">ネットワーク</span><span class="tag">非線形ダイナミクス</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第6回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling180706.html">2018/07/06–08　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">マルチイベント時系列</span><span class="tag">経済データ解析</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第5回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling171114.htm">2017/11/14–15　Kyoto</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">Fluctuations in event occurrences (Brent Doiron and Manuel Rodriguez)</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第4回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling170707.html">2017/07/07–09　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">拡散の制御</span><span class="tag">行動モデリング</span><span class="tag">経済イベント</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第3回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling161109.html">2016/11/09–10　東京</a>
+        <div class="workshop-meta"><span class="tag">点過程モデル</span><span class="tag">社会イベント</span></div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第2回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling160717.html">2016/07/17–18　軽井沢</a>
+        <div class="workshop-meta"><span class="tag">マルチトラックイベント時系列</span></div>
+      </div>
+    </li>
+    <li class="workshop-item special">
+      <span class="workshop-number">MONA2</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/workshop160622.htm">2016/06/22–24　ハワイ</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">Modeling Neural Activity — 日米の理論・実験神経科学の精鋭集まる．</div>
+      </div>
+    </li>
+    <li class="workshop-item">
+      <span class="workshop-number">第1回</span>
+      <div class="workshop-detail">
+        <a href="https://s-shinomoto.com/mathmodel/modeling151128.htm">2015/11/28–29　滋賀</a>
+        <div style="font-size:0.82rem; color:var(--text-light); margin-top:0.2rem;">非線形ダイナミクスと統計モデリングの研究者が集結．</div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- ───────── 過去の研究会 ───────── -->
+  <section class="past-section">
+    <h2>1986–2015 に行われてきた研究会</h2>
+    <p><a href="https://s-shinomoto.com/nousemi/seminar.htm">「脳のセミナー」2001–2015</a></p>
+    <p><a href="https://s-shinomoto.com/nousemi/reading.html">「脳の輪読会」1986–2000</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 数理モデリング研究会</p>
+</footer>
+
+</body>
+</html>
